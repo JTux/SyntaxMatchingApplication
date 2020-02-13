@@ -49,9 +49,8 @@ namespace SyntaxMatching.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -83,6 +82,10 @@ namespace SyntaxMatching.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Cohort")]
+        public int CohortId { get; set; }
     }
 
     public class ResetPasswordViewModel
