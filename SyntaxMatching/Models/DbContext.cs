@@ -8,7 +8,7 @@ using SyntaxMatching.Models.Entities;
 namespace SyntaxMatching.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<UserEntity>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -20,9 +20,10 @@ namespace SyntaxMatching.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Cohort> Cohorts { get; set; }
-        public DbSet<CodeCategory> CodeCategories { get; set; }
-        public DbSet<CodeSnippet> Snippets { get; set; }
-        public DbSet<Submission> Submissions { get; set; }
+        public DbSet<CohortEntity> Cohorts { get; set; }
+        public DbSet<CodeCategoryEntity> CodeCategories { get; set; }
+        public DbSet<CodeSnippetEntity> Snippets { get; set; }
+        public DbSet<SubmissionEntity> Submissions { get; set; }
+        public DbSet<RatingEntity> Ratings { get; set; }
     }
 }

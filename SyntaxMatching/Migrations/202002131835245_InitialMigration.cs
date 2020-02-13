@@ -8,7 +8,7 @@ namespace SyntaxMatching.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.CodeCategories",
+                "dbo.CodeCategoryEntities",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -17,7 +17,7 @@ namespace SyntaxMatching.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.CodeSnippets",
+                "dbo.CodeSnippetEntities",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -26,17 +26,23 @@ namespace SyntaxMatching.Migrations
                         CategoryId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CodeCategories", t => t.CategoryId, cascadeDelete: true)
+                .ForeignKey("dbo.CodeCategoryEntities", t => t.CategoryId, cascadeDelete: true)
                 .Index(t => t.CategoryId);
             
             CreateTable(
-                "dbo.Cohorts",
+                "dbo.RatingEntities",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
+                        Value = c.Double(nullable: false),
+                        SnippetId = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.CodeSnippetEntities", t => t.SnippetId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.SnippetId)
+                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -57,7 +63,7 @@ namespace SyntaxMatching.Migrations
                         UserName = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cohorts", t => t.CohortId, cascadeDelete: true)
+                .ForeignKey("dbo.CohortEntities", t => t.CohortId, cascadeDelete: true)
                 .Index(t => t.CohortId)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
@@ -73,6 +79,15 @@ namespace SyntaxMatching.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.CohortEntities",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetUserLogins",
@@ -110,7 +125,7 @@ namespace SyntaxMatching.Migrations
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
-                "dbo.Submissions",
+                "dbo.SubmissionEntities",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -120,7 +135,7 @@ namespace SyntaxMatching.Migrations
                         CodeSnippetId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CodeSnippets", t => t.CodeSnippetId, cascadeDelete: true)
+                .ForeignKey("dbo.CodeSnippetEntities", t => t.CodeSnippetId, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.CodeSnippetId);
@@ -129,16 +144,18 @@ namespace SyntaxMatching.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Submissions", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Submissions", "CodeSnippetId", "dbo.CodeSnippets");
+            DropForeignKey("dbo.SubmissionEntities", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.SubmissionEntities", "CodeSnippetId", "dbo.CodeSnippetEntities");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.RatingEntities", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "CohortId", "dbo.Cohorts");
+            DropForeignKey("dbo.AspNetUsers", "CohortId", "dbo.CohortEntities");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CodeSnippets", "CategoryId", "dbo.CodeCategories");
-            DropIndex("dbo.Submissions", new[] { "CodeSnippetId" });
-            DropIndex("dbo.Submissions", new[] { "UserId" });
+            DropForeignKey("dbo.RatingEntities", "SnippetId", "dbo.CodeSnippetEntities");
+            DropForeignKey("dbo.CodeSnippetEntities", "CategoryId", "dbo.CodeCategoryEntities");
+            DropIndex("dbo.SubmissionEntities", new[] { "CodeSnippetId" });
+            DropIndex("dbo.SubmissionEntities", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -146,16 +163,19 @@ namespace SyntaxMatching.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUsers", new[] { "CohortId" });
-            DropIndex("dbo.CodeSnippets", new[] { "CategoryId" });
-            DropTable("dbo.Submissions");
+            DropIndex("dbo.RatingEntities", new[] { "UserId" });
+            DropIndex("dbo.RatingEntities", new[] { "SnippetId" });
+            DropIndex("dbo.CodeSnippetEntities", new[] { "CategoryId" });
+            DropTable("dbo.SubmissionEntities");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.CohortEntities");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.Cohorts");
-            DropTable("dbo.CodeSnippets");
-            DropTable("dbo.CodeCategories");
+            DropTable("dbo.RatingEntities");
+            DropTable("dbo.CodeSnippetEntities");
+            DropTable("dbo.CodeCategoryEntities");
         }
     }
 }

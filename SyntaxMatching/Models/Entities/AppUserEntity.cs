@@ -11,9 +11,9 @@ using System.Web;
 
 namespace SyntaxMatching.Models.Entities
 {
-    public class ApplicationUser : IdentityUser
+    public class UserEntity : IdentityUser
     {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<UserEntity> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -25,6 +25,8 @@ namespace SyntaxMatching.Models.Entities
         public int CohortId { get; set; }
 
         [ForeignKey(nameof(CohortId))]
-        public virtual Cohort Cohort { get; set; }
+        public virtual CohortEntity Cohort { get; set; }
+
+        public virtual ICollection<RatingEntity> Ratings { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SyntaxMatching.Models.Entities
 {
-    public class Submission
+    public class SubmissionEntity
     {
         [Key]
         public int Id { get; set; }
@@ -22,12 +22,12 @@ namespace SyntaxMatching.Models.Entities
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
-        public virtual ApplicationUser User { get; set; }
+        public virtual UserEntity User { get; set; }
 
         [Required]
         public int CodeSnippetId { get; set; }
 
         [ForeignKey(nameof(CodeSnippetId))]
-        public virtual CodeSnippet CodeSnippet { get; set; }
+        public virtual CodeSnippetEntity CodeSnippet { get; set; }
     }
 }

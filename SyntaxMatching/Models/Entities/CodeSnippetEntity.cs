@@ -7,7 +7,7 @@ using System.Web;
 
 namespace SyntaxMatching.Models.Entities
 {
-    public class CodeSnippet
+    public class CodeSnippetEntity
     {
         [Key]
         public int Id { get; set; }
@@ -22,6 +22,10 @@ namespace SyntaxMatching.Models.Entities
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public virtual CodeCategory Category { get; set; }
+        public virtual CodeCategoryEntity Category { get; set; }
+
+        public virtual ICollection<RatingEntity> Ratings { get; set; }
+
+        public double? AverageRating => Ratings?.Sum((r) => r.Value);
     }
 }

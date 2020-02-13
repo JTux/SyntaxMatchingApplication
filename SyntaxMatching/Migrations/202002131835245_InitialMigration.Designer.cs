@@ -13,7 +13,7 @@ namespace SyntaxMatching.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202002131624513_InitialMigration"; }
+            get { return "202002131835245_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

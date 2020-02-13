@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SyntaxMatching.Models.Entities
 {
-    public class CodeCategory
+    public class CodeCategoryEntity
     {
         [Key]
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace SyntaxMatching.Models.Entities
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
 
-        public virtual ICollection<CodeSnippet> Snippets { get; set; }
+        public virtual ICollection<CodeSnippetEntity> Snippets { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SyntaxMatching.Models.Entities
 {
-    public class Cohort
+    public class CohortEntity
     {
         [Key]
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace SyntaxMatching.Models.Entities
         [Display(Name = "Cohort Name")]
         public string Name { get; set; }
 
-        public virtual ICollection<ApplicationUser> Members { get; set; }
+        public virtual ICollection<UserEntity> Members { get; set; }
     }
 }

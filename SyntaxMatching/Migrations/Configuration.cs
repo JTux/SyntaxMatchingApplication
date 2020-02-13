@@ -19,7 +19,7 @@ namespace SyntaxMatching.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
-            context.Cohorts.AddOrUpdate(new Models.Entities.Cohort { Id = 1, Name = "SD 44" });
+            context.Cohorts.AddOrUpdate(new Models.Entities.CohortEntity { Id = 1, Name = "SD 44" });
         }
     }
 }
