@@ -189,11 +189,13 @@
     <Compile Include="Models\Entities\AppUserEntity.cs" />
     <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Rating\RatingCreate.cs" />
     <Compile Include="Models\Rating\RatingDetail.cs" />
     <Compile Include="Models\Snippet\SnippetDetail.cs" />
     <Compile Include="Models\Snippet\SnippetListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\RatingService.cs" />
     <Compile Include="Services\SnippetService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -257,6 +259,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Contracts\" />
+    <Folder Include="Models\Submission\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

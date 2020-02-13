@@ -14,9 +14,12 @@ namespace SyntaxMatching.Services
     public class CategoryService
     {
         private readonly ApplicationDbContext _context;
+        private readonly string _userId;
 
         public CategoryService() => _context = new ApplicationDbContext();
+        public CategoryService(string userId) : this() => _userId = userId;
         public CategoryService(ApplicationDbContext context) => _context = context;
+        public CategoryService(string userId, ApplicationDbContext context) : this(context) => _userId = userId;
 
         public async Task<List<CategoryListItem>> GetCategories()
         {

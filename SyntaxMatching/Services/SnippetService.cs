@@ -14,9 +14,12 @@ namespace SyntaxMatching.Services
     public class SnippetService
     {
         private readonly ApplicationDbContext _context;
+        private readonly string _userId;
 
         public SnippetService() => _context = new ApplicationDbContext();
+        public SnippetService(string userId) : this() => _userId = userId;
         public SnippetService(ApplicationDbContext context) => _context = context;
+        public SnippetService(string userId, ApplicationDbContext context) : this(context) => _userId = userId;
 
         public async Task<List<SnippetListItem>> GetCodeSnippets()
         {
@@ -49,13 +52,15 @@ namespace SyntaxMatching.Services
 
         internal SnippetDetail CreateSnippetDetail(CodeSnippetEntity entity)
         {
+            var ratingService = (_userId == null) ? new RatingService(_context) : new RatingService(_userId, _context);
+
             return new SnippetDetail
             {
                 Id = entity.Id,
                 AverageRating = entity.AverageRating,
                 CategoryId = entity.CategoryId,
                 CategoryName = entity.Category.CategoryName,
-                Ratings = entity.Ratings.Select(r => new RatingDetail { }).ToList(),
+                Ratings = entity.Ratings.Select(r => ratingService.CreateRatingDetail(r)).ToList(),
             };
         }
     }
