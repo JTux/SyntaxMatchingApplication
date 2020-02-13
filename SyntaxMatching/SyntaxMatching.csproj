@@ -179,6 +179,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Category\CategoryDetail.cs" />
+    <Compile Include="Models\Category\CategoryListItem.cs" />
     <Compile Include="Models\Entities\CodeCategoryEntity.cs" />
     <Compile Include="Models\Entities\CodeSnippetEntity.cs" />
     <Compile Include="Models\Entities\CohortEntity.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Models\Snippet\SnippetDetail.cs" />
     <Compile Include="Models\Snippet\SnippetListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\SnippetService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

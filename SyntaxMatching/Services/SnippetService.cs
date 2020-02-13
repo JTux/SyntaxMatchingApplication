@@ -16,7 +16,7 @@ namespace SyntaxMatching.Services
         private readonly ApplicationDbContext _context;
 
         public SnippetService() => _context = new ApplicationDbContext();
-        public SnippetService(ApplicationDbContext context) => _context = new ApplicationDbContext();
+        public SnippetService(ApplicationDbContext context) => _context = context;
 
         public async Task<List<SnippetListItem>> GetCodeSnippets()
         {
